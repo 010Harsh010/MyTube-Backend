@@ -1,15 +1,11 @@
-import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
-import connectDB from "./db/index.js";
-dotenv.config({ path: './.env' });
-
 
 const app = express();
 
-const whitelist = ['http://localhost:5173','https://mytube-beta-version.vercel.app','https://mytube-beta-version.vercel.app/login','https://mytube-beta-version.vercel.app/','https://mytube-beta-version.vercel.app/setting'];
+const whitelist = ['http://192.168.29.82:5173', 'http://localhost:5173'];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -46,39 +42,4 @@ app.use("/api/v1/comments", commentsRouter);
 app.use("/api/v1/user-playlist", playlistRouter);
 app.use("/api/v1/likes", likeRouter);
 
-connectDB()
-.then(()=>{
-    app.listen(process.env.PORT || 8000,()=>{
-        console.log(`Server is running on port ${process.env.PORT || 8000}`)
-    })
-})
-.catch((err) => {
-    console.error("MOngo db connection failed ",err.message);
-})
-
-
-
-
-
-
-
-
-/*
-(async () => {
-    try {
-        await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
-        app.on("error",()=>{
-            console.log("ERROR:",error);
-            throw error
-        })
-        app.listen(process.env.PORT ,()=>{
-            console.log(`App listining on PORT ${process.env.PORT}}`);
-            
-        })
-    } catch (error) {
-        console.log("ERROR",error);
-        throw error
-    }
-})()
-
-*/
+export { app };
